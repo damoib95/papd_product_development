@@ -5,24 +5,138 @@ stages:
     deps:
     - path: data/data.csv
       hash: md5
-      md5: 6f3ccb7a9254db5e175d88222c3d22fa  # Elegido HEAD
+      md5: 801f8030dad1df22a53edfdbfa4e80f0
+      size: 29981
+    - path: src/preprocess.py
+      hash: md5
+      md5: 6f3ccb7a9254db5e175d88222c3d22fa
       size: 1113
-    ...
+    params:
+      params.yaml:
+        data:
+          input_path: data/data.csv
+          output_path: data/preprocessed_data.csv
+        preprocessing:
+          target: price
+          features:
+          - area
+          - bedrooms
+          - bathrooms
+          - stories
+          - parking
     outs:
     - path: data/preprocessed_data.csv
       hash: md5
-      md5: d8f5fb805c83c46e781406fbaa1f10d5  # Elegido HEAD
+      md5: d8f5fb805c83c46e781406fbaa1f10d5
       size: 58343
   train:
     cmd: python src/train.py
     deps:
-    ...
+    - path: data/preprocessed_data.csv
+      hash: md5
+      md5: d8f5fb805c83c46e781406fbaa1f10d5
+      size: 58343
+    - path: src/train.py
+      hash: md5
+      md5: 413b6a31a571add320f5f551fd4d1d7e
+      size: 3624
+    params:
+      params.yaml:
+        preprocessing:
+          target: price
+          features:
+          - area
+          - bedrooms
+          - bathrooms
+          - stories
+          - parking
+        train:
+          test_size: 0.2
+          random_state: 42
+          model_path: models
+          linear_regression:
+            hyperparameters:
+              fit_intercept:
+              - true
+              - false
+          random_forest:
+            hyperparameters:
+              n_estimators:
+              - 100
+              - 200
+              - 300
+              max_depth:
+              - 
+              - 5
+              - 10
+              - 15
+              - 20
+              min_samples_split:
+              - 2
+              - 5
+              - 10
+              min_samples_leaf:
+              - 1
+              - 2
+              - 4
+          gradient_boosting:
+            hyperparameters:
+              n_estimators:
+              - 100
+              - 200
+              - 300
+              learning_rate:
+              - 0.01
+              - 0.05
+              - 0.1
+              max_depth:
+              - 3
+              - 5
+              - 7
+              - 9
+              min_samples_split:
+              - 2
+              - 5
     outs:
     - path: models/GradientBoosting_model.joblib
       hash: md5
-      md5: 18a8e9260405d2d4f2ab012b59dfc412
-      size: 179613
+      md5: e445dba7afad6a56918b946adfaadea6
+      size: 541422
+    - path: models/LinearRegression_model.joblib
+      hash: md5
+      md5: 217a0dde994e2dbdb3128953852d0404
+      size: 976
+    - path: models/RandomForest_model.joblib
+      hash: md5
+      md5: a1955a2e92d24457bef5f70378265fc6
+      size: 796817
     - path: models/champion_model.joblib
       hash: md5
-      md5: e9cadf22893acdd6dd61dd77459e021a  # Elegido HEAD
-      size: 939
+      md5: 217a0dde994e2dbdb3128953852d0404
+      size: 976
+  evaluate:
+    cmd: python src/evaluate.py
+    deps:
+    - path: data/preprocessed_data.csv
+      hash: md5
+      md5: d8f5fb805c83c46e781406fbaa1f10d5
+      size: 58343
+    - path: models/champion_model.joblib
+      hash: md5
+      md5: 217a0dde994e2dbdb3128953852d0404
+      size: 976
+    - path: src/evaluate.py
+      hash: md5
+      md5: 67e112197302e977fb2dd6127bfb438e
+      size: 2490
+    params:
+      params.yaml:
+        evaluate:
+          model_file: models/champion_model.joblib
+          metrics_file: metrics.json
+          feature_importance_file: feature_importance.csv
+    outs:
+    - path: metrics.json
+      hash: md5
+      md5: b0f92de0a15e8ad11bfbdbdf2628c754
+      size: 63
