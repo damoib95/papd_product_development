@@ -9,8 +9,13 @@ stages:
       size: 29981
     - path: src/preprocess.py
       hash: md5
+<<<<<<< HEAD
       md5: 6f3ccb7a9254db5e175d88222c3d22fa
       size: 1113
+=======
+      md5: 30dd5b267883cc9c9ec4ec4ea519426b
+      size: 948
+>>>>>>> 7c84693 (actualizacion de dvc.lock y modelos)
     params:
       params.yaml:
         data:
@@ -27,5 +32,51 @@ stages:
     outs:
     - path: data/preprocessed_data.csv
       hash: md5
+<<<<<<< HEAD
       md5: d8f5fb805c83c46e781406fbaa1f10d5
       size: 58343
+=======
+      md5: acc5066acce262b679b63e3013d60c2d
+      size: 11517
+  train:
+    cmd: python src/train.py
+    deps:
+    - path: data/preprocessed_data.csv
+      hash: md5
+      md5: acc5066acce262b679b63e3013d60c2d
+      size: 11517
+    - path: src/train.py
+      hash: md5
+      md5: 77a076b6c22cc6b95d470ee5517b5590
+      size: 1903
+    params:
+      params.yaml:
+        preprocessing:
+          target: price
+          features:
+          - area
+          - bedrooms
+          - bathrooms
+          - stories
+          - parking
+        train:
+          test_size: 0.2
+          random_state: 42
+          alpha: 0.1
+          n_estimators: 100
+          learning_rate: 0.1
+          model_path: models
+    outs:
+    - path: models/GradientBoosting_model.joblib
+      hash: md5
+      md5: 5063ea4930f2bfbc8d6162ab70447535
+      size: 182908
+    - path: models/RandomForest_model.joblib
+      hash: md5
+      md5: 88f3378096356c289ca5ffcb9b047bd1
+      size: 3746497
+    - path: models/Ridge_model.joblib
+      hash: md5
+      md5: e9cadf22893acdd6dd61dd77459e021a
+      size: 939
+>>>>>>> 7c84693 (actualizacion de dvc.lock y modelos)

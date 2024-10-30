@@ -1,1 +1,4 @@
 /model.joblib
+/Ridge_model.joblib
+/RandomForest_model.joblib
+/GradientBoosting_model.joblib
