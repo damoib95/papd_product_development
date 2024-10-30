@@ -1,0 +1,31 @@
+schema: '2.0'
+stages:
+  preprocess:
+    cmd: python src/preprocess.py
+    deps:
+    - path: data/data.csv
+      hash: md5
+      md5: 801f8030dad1df22a53edfdbfa4e80f0
+      size: 29981
+    - path: src/preprocess.py
+      hash: md5
+      md5: 6f3ccb7a9254db5e175d88222c3d22fa
+      size: 1113
+    params:
+      params.yaml:
+        data:
+          input_path: data/data.csv
+          output_path: data/preprocessed_data.csv
+        preprocessing:
+          target: price
+          features:
+          - area
+          - bedrooms
+          - bathrooms
+          - stories
+          - parking
+    outs:
+    - path: data/preprocessed_data.csv
+      hash: md5
+      md5: d8f5fb805c83c46e781406fbaa1f10d5
+      size: 58343
