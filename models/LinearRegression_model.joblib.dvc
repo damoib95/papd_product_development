@@ -1,0 +1,5 @@
+outs:
+- md5: 217a0dde994e2dbdb3128953852d0404
+  size: 976
+  hash: md5
+  path: LinearRegression_model.joblib
