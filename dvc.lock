@@ -100,20 +100,12 @@ stages:
     outs:
     - path: models/GradientBoosting_model.joblib
       hash: md5
-      md5: e445dba7afad6a56918b946adfaadea6
-      size: 541422
-    - path: models/LinearRegression_model.joblib
-      hash: md5
-      md5: 217a0dde994e2dbdb3128953852d0404
-      size: 976
+      md5: 4e2c93e8fc1dac7f6238c8f68a237d9c
+      size: 541389
     - path: models/RandomForest_model.joblib
       hash: md5
-      md5: a1955a2e92d24457bef5f70378265fc6
-      size: 796817
-    - path: models/champion_model.joblib
-      hash: md5
-      md5: 217a0dde994e2dbdb3128953852d0404
-      size: 976
+      md5: d52269adcf8019d5444aa09808064d33
+      size: 1007969
   evaluate:
     cmd: python src/evaluate.py
     deps:

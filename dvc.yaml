@@ -18,10 +18,8 @@ stages:
     - preprocessing
     - train
     outs:
-    - models/LinearRegression_model.joblib
     - models/RandomForest_model.joblib
     - models/GradientBoosting_model.joblib
-    - models/champion_model.joblib
   evaluate:
     cmd: python src/evaluate.py
     deps:
