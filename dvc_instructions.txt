@@ -1,0 +1,26 @@
+git init
+
+dvc init
+
+dvc config core.autostage true
+
+dvc stage add -n preprocess \
+  -p preprocessing,data \
+  -d src/preprocess.py -d data/data.csv \
+  -o data/preprocessed_data.csv \
+  python src/preprocess.py
+
+
+dvc stage add -n train \
+  -p train,preprocessing \
+  -d src/train.py -d data/preprocessed_data.csv \
+  -o models/model.joblib \
+  python src/train.py
+
+dvc stage add -n evaluate \
+  -p evaluate \
+  -d src/evaluate.py -d data/preprocessed_data.csv \
+  -d models/champion_model.joblib \
+  -o metrics.json \
+  python src/evaluate.py
+
