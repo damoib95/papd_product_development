@@ -9,3 +9,13 @@ stages:
     - preprocessing
     outs:
     - data/preprocessed_data.csv
+  train:
+    cmd: python src/train.py
+    deps:
+    - data/preprocessed_data.csv
+    - src/train.py
+    params:
+    - preprocessing
+    - train
+    outs:
+    - models/model.joblib
